@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Portal | Makki Masjid Gakuin</title>
+    <style>
+        :root { --primary: #004d40; --gold: #d4af37; --bg: #f4f7f6; }
+        body { background: var(--bg); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; }
+        .teacher-container { max-width: 1100px; margin: 20px auto; padding: 15px; }
+        
+        .header { background: var(--primary); color: white; padding: 25px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .header h1 { margin: 0; font-size: 1.5rem; }
+        
+        .section { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-top: 25px; }
+        .section h3 { color: var(--primary); border-bottom: 2px solid var(--bg); padding-bottom: 10px; margin-top: 0; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
+        th { text-align: left; padding: 12px; background: #f8f9fa; color: #333; font-size: 0.75rem; text-transform: uppercase; border: 1px solid #ddd; }
+        td { padding: 10px; border: 1px solid #eee; word-wrap: break-word; }
+
+        .tab-btn { padding: 12px 20px; border: none; border-radius: 8px 8px 0 0; cursor: pointer; background: #e0e0e0; font-weight: bold; transition: 0.3s; }
+        .tab-btn.active { background: var(--primary); color: white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .btn-logout { background: #c62828; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+        .btn-submit { background: var(--primary); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold; margin-top: 20px; }
+        .batch-input { width: 100%; border: 1px solid #ddd; padding: 6px; border-radius: 4px; box-sizing: border-box; }
+        
+        /* Progress Bars */
+        .progress-bar-bg { background: #eee; height: 6px; border-radius: 3px; width: 100%; display: inline-block; }
+        .progress-fill { background: var(--gold); height: 100%; border-radius: 3px; }
+
+        /* Monthly Record Specific Styles */
+        .attn-badge { padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; display: block; text-align: center; }
+        .attn-P { background: #e8f5e9; color: #2e7d32; }
+        .attn-A { background: #ffebee; color: #c62828; }
+        .attn-L { background: #fff3e0; color: #ef6c00; }
+        
+        .hist-table th { text-align: center !important; color: #ffffff !important; background: #004d40; }
+        .hist-table td { text-align: center; font-size: 0.85rem; }
+
+        .filter-container { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .filter-container select { padding: 10px; border-radius: 6px; border: 1px solid #ddd; flex: 1; min-width: 200px; }
+    </style>
+</head>
+<body>
+
+<div class="teacher-container">
+    <div class="header">
+        <div>
+            <h1 id="teacherGreeting">Assalamu Alaikum</h1>
+            <p id="divisionInfo" style="margin:5px 0 0 0; opacity:0.9;">Division: Loading...</p>
+        </div>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+
+    <div id="noticeBar" style="background:#fff3cd; padding:15px; border-radius:12px; margin-top:15px; border-left:5px solid #d4af37; display:none;">
+        <marquee id="noticeText" behavior="scroll" direction="left" style="font-weight:bold; color:#856404;"></marquee>
+    </div>
+
+    <div style="margin-top:25px; display:flex; gap:10px; border-bottom:2px solid #ddd; padding-bottom:0;">
+        <button class="tab-btn active" id="btn-dashboard" onclick="switchTab('dashboard')">📊 Progress List</button>
+        <button class="tab-btn" id="btn-inputTab" onclick="switchTab('inputTab')">✍️ Daily Input</button>
+        <button class="tab-btn" id="btn-historyTab" onclick="switchTab('historyTab')">📜 Monthly Records</button>
+    </div>
+
+    <div id="dashboard" class="tab-content active">
+        <div class="section">
+            <h3>📖 Student Progress Overview</h3>
+            <table id="progressTable" style="table-layout: auto;">
+                <thead>
+                    <tr><th style="width: 30%;">Student Name</th><th>Level Progress</th></tr>
+                </thead>
+                <tbody id="myStudentList">
+                    <tr><td colspan="2" style="text-align:center;">Loading students...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="inputTab" class="tab-content">
+        <div class="section">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3>📝 Daily Log Entry</h3>
+                <input type="date" id="batchDate" style="padding:8px; border-radius:6px; border:1px solid #ddd;">
+            </div>
+            <div style="overflow-x: auto;">
+                <table style="min-width:1100px; font-size: 0.85rem;">
+                    <thead>
+                        <tr style="background:#f8f9fa;">
+                            <th style="width:40px;">Sl</th><th style="width:150px;">Name</th><th style="width:70px;">Attn</th>
+                            <th colspan="2" id="h-s1" style="background:#e3f2fd; text-align:center;">S1</th>
+                            <th colspan="2" id="h-s2" style="background:#f1f8e9; text-align:center;">S2</th>
+                            <th colspan="2" id="h-s3" style="background:#fff3e0; text-align:center;">S3</th>
+                            <th style="width:120px;">Perf.</th>
+                        </tr>
+                        <tr style="font-size:0.7rem; background:#eee;">
+                            <th colspan="3"></th>
+                            <th style="text-align:center;">Lvl</th><th style="text-align:center;">Page</th>
+                            <th style="text-align:center;">Lvl</th><th style="text-align:center;">Page</th>
+                            <th style="text-align:center;">Lvl</th><th style="text-align:center;">Page</th>
+                            <th style="text-align:center;">Remark</th>
+                        </tr>
+                    </thead>
+                    <tbody id="batchTableBody"></tbody>
+                </table>
+            </div>
+            <button class="btn-submit" id="saveAllBtn" onclick="saveAllBatch()">Submit All Records</button>
+        </div>
+    </div>
+
+    <div id="historyTab" class="tab-content">
+        <div class="section">
+            <h3>📜 Monthly Academic Record</h3>
+            <div class="filter-container">
+                <select id="historyStudentSelect">
+                    <option value="">-- Choose Student --</option>
+                </select>
+                <select id="historyMonthFilter">
+                    <option value="all">Show All Months</option>
+                    <option value="01">January</option><option value="02">February</option>
+                    <option value="03">March</option><option value="04">April</option>
+                    <option value="05">May</option><option value="06">June</option>
+                    <option value="07">July</option><option value="08">August</option>
+                    <option value="09">September</option><option value="10">October</option>
+                    <option value="11">November</option><option value="12">December</option>
+                </select>
+            </div>
+            <div id="historyResult" style="overflow-x: auto;">
+                <p style="color:#666;">Select a student to view the academic table.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, getDoc, getDocs, collection, query, where, updateDoc, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAdA02h0pqEEQunobeSM4emZfPW1EjMKu4",
+        authDomain: "makki-masjid-gakuin.firebaseapp.com",
+        projectId: "makki-masjid-gakuin",
+        storageBucket: "makki-masjid-gakuin.firebasestorage.app",
+        messagingSenderId: "376596641128",
+        appId: "1:376596641128:web:b49c1233aaed64ae6552dd"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const divisionLabels = {
+        "Maktab": ["Qaida/Quran", "Dua", "Islamic Studies"],
+        "Nazera": ["Quran Reading", "Tajweed Rule", "Memorization"],
+        "Hifz": ["New Sabaq", "Sabaqi", "Manzil"]
+    };
+
+    const teacherEmail = localStorage.getItem('userEmail');
+    let teacherData = null;
+
+    async function init() {
+        if (!teacherEmail) { 
+            window.location.href = 'index.html'; 
+            return; 
+        }
+        try {
+            const tDoc = await getDoc(doc(db, "users", teacherEmail));
+            if (tDoc.exists()) {
+                teacherData = tDoc.data();
+                document.getElementById('teacherGreeting').innerText = "Assalamu Alaikum, " + (teacherData.name || "Teacher");
+                document.getElementById('divisionInfo').innerText = "Division: " + (teacherData.division || "Not Assigned");
+                loadNotice();
+                loadStudents();
+            } else {
+                alert("Teacher profile not found.");
+            }
+        } catch (err) {
+            console.error("Init Error:", err);
+        }
+    }
+
+    window.switchTab = (tabId) => {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        document.getElementById('btn-' + tabId).classList.add('active');
+        if(tabId === 'dashboard') loadStudents();
+        if(tabId === 'inputTab') renderBatchTable();
+        if(tabId === 'historyTab') populateHistoryDropdown();
+    };
+
+    async function loadStudents() {
+        const list = document.getElementById('myStudentList');
+        if (!teacherData || !teacherData.division) return;
+        const q = query(collection(db, "students"), where("division", "==", teacherData.division));
+        const snap = await getDocs(q);
+        list.innerHTML = "";
+        const labels = divisionLabels[teacherData.division] || ["S1", "S2", "S3"];
+        snap.forEach(docSnap => {
+            const s = docSnap.data();
+            const lv = s.levels || { c1: 0, c2: 0, c3: 0 };
+            const gl = s.goals || { c1: 1, c2: 1, c3: 1 };
+            const createBar = (cur, goal, lbl) => {
+                const perc = Math.min(Math.round((cur / (goal || 1)) * 100), 100);
+                return `<div style="margin-bottom:8px; font-size:11px;">
+                            <strong>${lbl}</strong>: ${cur}/${goal} 
+                            <div class="progress-bar-bg"><div class="progress-fill" style="width:${perc}%"></div></div>
+                        </div>`;
+            };
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td><strong>${s.name}</strong></td>
+                            <td>${createBar(lv.c1, gl.c1, labels[0])} ${createBar(lv.c2, gl.c2, labels[1])} ${createBar(lv.c3, gl.c3, labels[2])}</td>`;
+            list.appendChild(tr);
+        });
+    }
+
+    async function renderBatchTable() {
+        const tbody = document.getElementById('batchTableBody');
+        document.getElementById('batchDate').valueAsDate = new Date();
+        const labels = divisionLabels[teacherData.division] || ["S1", "S2", "S3"];
+        document.getElementById('h-s1').innerText = labels[0];
+        document.getElementById('h-s2').innerText = labels[1];
+        document.getElementById('h-s3').innerText = labels[2];
+
+        const q = query(collection(db, "students"), where("division", "==", teacherData.division));
+        const snap = await getDocs(q);
+        
+        let pageOptions = `<option value="-">-</option>`;
+        for(let p=1; p<=30; p++) {
+            pageOptions += `<option value="${p}">${p}</option>`;
+        }
+
+        let html = "";
+        let i = 1;
+        snap.forEach(doc => {
+            const s = doc.data();
+            const lv = s.levels || {c1:0, c2:0, c3:0};
+            html += `<tr data-sid="${doc.id}" data-name="${s.name}">
+                <td style="text-align:center;">${i++}</td>
+                <td><strong>${s.name}</strong></td>
+                <td>
+                    <select class="batch-input attn">
+                        <option value="P">P</option>
+                        <option value="A">A</option>
+                        <option value="L">L</option>
+                    </select>
+                </td>
+                <td><input type="number" class="batch-input l1" value="${lv.c1}"></td>
+                <td><select class="batch-input p1">${pageOptions}</select></td>
+                <td><input type="number" class="batch-input l2" value="${lv.c2}"></td>
+                <td><select class="batch-input p2">${pageOptions}</select></td>
+                <td><input type="number" class="batch-input l3" value="${lv.c3}"></td>
+                <td><select class="batch-input p3">${pageOptions}</select></td>
+                <td>
+                    <select class="batch-input perf">
+                        <option value="Excellent">Excellent</option>
+                        <option value="Good" selected>Good</option>
+                        <option value="Average">Average</option>
+                        <option value="Poor">Poor</option>
+                    </select>
+                </td>
+            </tr>`;
+        });
+        tbody.innerHTML = html;
+    }
+
+    window.saveAllBatch = async () => {
+        const rows = document.querySelectorAll('#batchTableBody tr');
+        const logDate = document.getElementById('batchDate').value;
+        const btn = document.getElementById('saveAllBtn');
+        if (!logDate) { alert("Please select a date"); return; }
+        if (rows.length === 0) return;
+        const confirmSave = confirm(`Submit records for ${rows.length} students?`);
+        if (!confirmSave) return;
+
+        btn.disabled = true;
+        btn.innerText = "Saving...";
+
+        try {
+            const labels = divisionLabels[teacherData.division];
+            for (let row of rows) {
+                const sid = row.dataset.sid;
+                const lv = {
+                    c1: parseInt(row.querySelector('.l1').value) || 0,
+                    c2: parseInt(row.querySelector('.l2').value) || 0,
+                    c3: parseInt(row.querySelector('.l3').value) || 0
+                };
+                const p1 = row.querySelector('.p1').value;
+                const p2 = row.querySelector('.p2').value;
+                const p3 = row.querySelector('.p3').value;
+                const attn = row.querySelector('.attn').value;
+                const perf = row.querySelector('.perf').value;
+
+                const logText = `[Attn: ${attn}] [${perf}] ${labels[0]}: Lvl ${lv.c1} Pg ${p1} | ${labels[1]}: Lvl ${lv.c2} Pg ${p2} | ${labels[2]}: Lvl ${lv.c3} Pg ${p3}`;
+                const sRef = doc(db, "students", sid);
+                const sSnap = await getDoc(sRef);
+                const currentLogs = sSnap.data().logs || [];
+
+                await updateDoc(sRef, {
+                    levels: lv,
+                    logs: [{ date: logDate, text: logText, timestamp: new Date() }, ...currentLogs].slice(0, 100)
+                });
+            }
+            alert("🎉 Alhamdulillah! Records saved.");
+            window.switchTab('dashboard');
+        } catch (e) { 
+            alert("Error: " + e.message); 
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "Submit All Records";
+        }
+    };
+    
+    async function populateHistoryDropdown() {
+        const sel = document.getElementById('historyStudentSelect');
+        const q = query(collection(db, "students"), where("division", "==", teacherData.division));
+        const snap = await getDocs(q);
+        sel.innerHTML = '<option value="">-- Choose Student --</option>' + 
+            snap.docs.map(d => `<option value="${d.id}">${d.data().name}</option>`).join('');
+        sel.onchange = loadStudentHistory;
+        document.getElementById('historyMonthFilter').onchange = loadStudentHistory;
+    }
+
+    async function loadStudentHistory() {
+        const sid = document.getElementById('historyStudentSelect').value;
+        const monthFilter = document.getElementById('historyMonthFilter').value;
+        const res = document.getElementById('historyResult');
+        if(!sid) {
+            res.innerHTML = '<p style="color:#666;">Select a student to view the academic table.</p>';
+            return;
+        }
+
+        const sDoc = await getDoc(doc(db, "students", sid));
+        let logs = sDoc.data().logs || [];
+        const labels = divisionLabels[teacherData.division] || ["S1", "S2", "S3"];
+
+        if (monthFilter !== 'all') {
+            logs = logs.filter(log => log.date.split('-')[1] === monthFilter);
+        }
+
+        if (!logs.length) {
+            res.innerHTML = "<p style='text-align:center; padding:20px;'>No records found for the selected criteria.</p>";
+            return;
+        }
+
+        let tableHtml = `
+            <table class="hist-table" style="min-width:900px;">
+                <thead>
+                    <tr style="background:#004d40;">
+                        <th rowspan="2" style="width:120px;">Date</th>
+                        <th rowspan="2" style="width:60px;">Attn</th>
+                        <th colspan="2" style="background:#00695c;">${labels[0]}</th>
+                        <th colspan="2" style="background:#2e7d32;">${labels[1]}</th>
+                        <th colspan="2" style="background:#558b2f;">${labels[2]}</th>
+                        <th rowspan="2" style="width:120px;">Perf.</th>
+                    </tr>
+                    <tr style="background:#004d40; font-size:0.7rem;">
+                        <th style="width:50px; border-top:1px solid #005a4a;">Lvl</th><th style="width:50px; border-top:1px solid #005a4a;">Pg</th>
+                        <th style="width:50px; border-top:1px solid #005a4a;">Lvl</th><th style="width:50px; border-top:1px solid #005a4a;">Pg</th>
+                        <th style="width:50px; border-top:1px solid #005a4a;">Lvl</th><th style="width:50px; border-top:1px solid #005a4a;">Pg</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+
+        logs.forEach(log => {
+            const attnMatch = log.text.match(/\[Attn: (.*?)\]/);
+            const perfMatch = log.text.match(/\] \[(.*?)\]/);
+            const attn = attnMatch ? attnMatch[1] : "-";
+            const perf = perfMatch ? perfMatch[1] : "-";
+            const progressParts = log.text.split('|');
+            
+            const extractData = (part) => {
+                if(!part) return { lvl: "-", pg: "-" };
+                const lMatch = part.match(/Lvl (.*?) /);
+                const pMatch = part.match(/Pg (.*?)$/);
+                return { lvl: lMatch ? lMatch[1] : "-", pg: pMatch ? pMatch[1] : "-" };
+            };
+
+            const s1 = extractData(progressParts[0]);
+            const s2 = extractData(progressParts[1]);
+            const s3 = extractData(progressParts[2]);
+
+            tableHtml += `
+                <tr>
+                    <td style="font-weight:bold;">${log.date}</td>
+                    <td><span class="attn-badge attn-${attn}">${attn}</span></td>
+                    <td style="background:#f0f7f7;">${s1.lvl}</td><td style="background:#f0f7f7; font-weight:bold; color:var(--primary);">${s1.pg}</td>
+                    <td style="background:#f1f8e9;">${s2.lvl}</td><td style="background:#f1f8e9; font-weight:bold; color:var(--primary);">${s2.pg}</td>
+                    <td style="background:#f9fbe7;">${s3.lvl}</td><td style="background:#f9fbe7; font-weight:bold; color:var(--primary);">${s3.pg}</td>
+                    <td style="font-size:0.75rem; color:#555;">${perf}</td>
+                </tr>`;
+        });
+
+        tableHtml += `</tbody></table>`;
+        res.innerHTML = tableHtml;
+    }
+
+    async function loadNotice() {
+        const q = query(collection(db, "notices"), orderBy("timestamp", "desc"), limit(1));
+        const snap = await getDocs(q);
+        if (!snap.empty) {
+            document.getElementById('noticeBar').style.display = 'block';
+            document.getElementById('noticeText').innerText = snap.docs[0].data().message;
+        }
+    }
+
+    window.logout = () => { localStorage.clear(); window.location.href = 'index.html'; };
+    init();
+</script>
+</body>
+</html>

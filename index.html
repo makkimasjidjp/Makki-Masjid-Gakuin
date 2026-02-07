@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makki Masjid Gakuin | Excellence in Islamic Education</title>
+    <style>
+        :root { --primary: #004d40; --accent: #d4af37; --text: #333; --light: #f4f7f6; }
+        body { margin: 0; font-family: 'Segoe UI', Roboto, sans-serif; color: var(--text); line-height: 1.6; background: #f9f9f9; }
+        
+        /* Navigation */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-weight: bold; font-size: 1.5rem; color: var(--primary); letter-spacing: 1px; }
+        nav a { margin-left: 20px; text-decoration: none; color: var(--text); font-weight: 500; transition: 0.3s; }
+        nav a:hover { color: var(--accent); }
+        .btn-portal { background: var(--primary); color: white !important; padding: 10px 25px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+
+        /* Hero Slider */
+        .slider { height: 60vh; position: relative; overflow: hidden; background: #222; }
+        .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out; display: flex; align-items: center; justify-content: center; text-align: center; color: white; background-size: cover; background-position: center; }
+        .slide.active { opacity: 1; }
+        .slide-content { background: rgba(0,0,0,0.6); padding: 40px; border-radius: 15px; max-width: 800px; backdrop-filter: blur(5px); }
+        .slide-content h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        
+        /* Prayer Times Bar */
+        .prayer-bar { background: var(--accent); color: var(--primary); padding: 15px; display: flex; justify-content: center; gap: 30px; font-weight: bold; flex-wrap: wrap; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+        /* Main Layout */
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 2.5fr 1fr; gap: 30px; }
+        
+        /* Section Cards */
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 25px; border-top: 5px solid var(--primary); }
+        .topic-tag { display: inline-block; background: #e0f2f1; color: var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px; }
+        
+        .program-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; }
+        .prog-item { background: var(--light); padding: 20px; border-radius: 10px; border-left: 4px solid var(--accent); }
+
+        /* Footer */
+        footer { background: var(--primary); color: white; text-align: center; padding: 40px; margin-top: 50px; }
+
+        /* ✅ Annual Calendar (NEW) */
+        .calendar-wrap { max-width: 1200px; margin: 25px auto 0 auto; padding: 0 20px; }
+        .calendar-card { background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border-top: 5px solid var(--accent); overflow: hidden; }
+        .calendar-head { display:flex; justify-content: space-between; align-items:center; gap: 15px; padding: 18px 20px; background: #fffdf6; border-bottom: 1px solid #eee; }
+        .calendar-head h3 { margin: 0; color: var(--primary); }
+        .calendar-actions { display:flex; gap: 10px; flex-wrap: wrap; }
+        .btn { border: none; cursor: pointer; padding: 10px 14px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; transition: 0.2s; text-decoration: none; display:inline-flex; align-items:center; gap: 8px; }
+        .btn:hover { transform: translateY(-1px); opacity: 0.95; }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-ghost { background: #f4f7f6; border: 1px solid #e5e5e5; color: #111; }
+        .btn-accent { background: var(--accent); color: var(--primary); }
+
+        .calendar-body { padding: 18px 20px 22px 20px; }
+        .calendar-preview { width: 100%; border-radius: 10px; border: 1px solid #eee; cursor: zoom-in; display:block; }
+        .calendar-note { margin-top: 10px; color: #666; font-size: 0.85rem; }
+
+        /* Calendar Modal (NEW) */
+        .modal { display:none; position: fixed; inset:0; background: rgba(0,0,0,0.75); z-index: 2000; padding: 20px; }
+        .modal-inner { max-width: 1200px; margin: 0 auto; background: #111; border-radius: 12px; overflow: hidden; }
+        .modal-top { display:flex; justify-content: space-between; align-items:center; padding: 12px 14px; background: #0b0b0b; color: #fff; }
+        .modal-top strong { font-size: 0.95rem; }
+        .modal-close { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.25); padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+        .modal-content { background: #000; overflow: auto; max-height: 80vh; }
+        .modal-content img { width: 100%; height: auto; display:block; }
+
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+            .prayer-bar { gap: 10px; font-size: 0.75rem; }
+            .calendar-head { flex-direction: column; align-items: flex-start; }
+            .calendar-actions { width: 100%; }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">MAKKI MASJID GAKUIN</div>
+        <div>
+            <a href="#about">About</a>
+            <a href="#programs">Programs</a>
+            <a href="login.html" id="nav-portal-btn" class="btn-portal">Portal Login</a>
+        </div>
+    </nav>
+
+    <div class="slider">
+        <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=2070')">
+            <div class="slide-content">
+                <h1>Nurturing the Future Generation</h1>
+                <p>Providing authentic Islamic knowledge and character building for children in Japan.</p>
+            </div>
+        </div>
+        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1564121211835-e88c852648ab?q=80&w=2070')">
+            <div class="slide-content">
+                <h1>Hifz & Nazera Excellence</h1>
+                <p>Mastering Quranic recitation with Tajweed and deep spiritual connection.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="prayer-bar">
+        <span>Fajr: 06:00</span>
+        <span>Dhuhr: 12:30</span>
+        <span>Asr: 15:30</span>
+        <span>Maghrib: 16:52</span>
+        <span>Isha: 20:30</span>
+        <span id="live-clock" style="margin-left: 20px; padding: 2px 10px; background: rgba(255,255,255,0.2); border-radius: 4px;"></span>
+    </div>
+
+    <!-- ✅ Annual Calendar (NEW) -->
+    <div class="calendar-wrap">
+        <div class="calendar-card" id="annual-calendar">
+            <div class="calendar-head">
+                <div>
+                    <h3>📅 Annual Calendar</h3>
+                    <div style="color:#666; font-size:0.85rem;">Preview + download the full calendar.</div>
+                </div>
+                <div class="calendar-actions">
+                    <a class="btn btn-primary" href="annual-calendar-2026.pdf" target="_blank" rel="noopener">📄 Open PDF</a>
+                    <a class="btn btn-accent" href="annual-calendar-2026.pdf" download>📥 Download PDF</a>
+                    <button class="btn btn-ghost" id="btn-open-calendar-modal" type="button">🔍 View Fullscreen</button>
+                </div>
+            </div>
+            <div class="calendar-body">
+                <img
+                    id="calendarPreview"
+                    class="calendar-preview"
+                    src="annual-calendar-2026.png"
+                    alt="Annual Calendar Preview"
+                    loading="lazy"
+                />
+                <div class="calendar-note">
+                    Tip: Tap the image to view fullscreen. If you can’t see it, confirm the file names match exactly.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar Fullscreen Modal (NEW) -->
+    <div class="modal" id="calendarModal" aria-hidden="true">
+        <div class="modal-inner">
+            <div class="modal-top">
+                <strong>📅 Annual Calendar</strong>
+                <button class="modal-close" id="btn-close-calendar-modal" type="button">✖ Close</button>
+            </div>
+            <div class="modal-content">
+                <img id="calendarModalImg" src="annual-calendar-2026.png" alt="Annual Calendar Fullscreen">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <main>
+            <section id="about" class="card">
+                <h2>Welcome to Makki Masjid Gakuin</h2>
+                <p>Located in the heart of Katsushika, Tokyo, our Gakuin is more than just a school—it's a community. We focus on <strong>Tarbiyah</strong> (upbringing) alongside formal education, ensuring students grow with strong Islamic values and academic confidence.</p>
+            </section>
+
+            <section id="programs" class="card">
+                <h2>Educational Streams</h2>
+                <div class="program-grid">
+                    <div class="prog-item">
+                        <h4>Maktab (Basic)</h4>
+                        <p>For young learners. Focus on Qaida Baghdadi, basic Masnoon Duas, and Akhlaq.</p>
+                    </div>
+                    <div class="prog-item">
+                        <h4>Nazera</h4>
+                        <p>Complete recitation of the Holy Quran with strict adherence to the rules of Tajweed.</p>
+                    </div>
+                    <div class="prog-item">
+                        <h4>Hifz</h4>
+                        <p>Full Quran memorization program with individual tracking and daily Manzil revision.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Weekly Focus Topics</h2>
+                <div class="topic-box">
+                    <span class="topic-tag">Fiqh</span>
+                    <h4>Spiritual Excellence in Salah</h4>
+                    <p>Understanding the "why" behind our prayer to build a lifelong connection with Allah.</p>
+                </div>
+                <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                <div class="topic-box">
+                    <span class="topic-tag">Akhlaq</span>
+                    <h4>The Power of Honesty</h4>
+                    <p>Learning from the life of Al-Amin (SAW) about the value of truthfulness in daily life.</p>
+                </div>
+            </section>
+        </main>
+
+        <aside>
+            <div class="card" style="border-top-color: #c62828;">
+                <h3 style="color: #c62828;">📢 Announcements</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                        <strong>Annual Parent Meet</strong><br>
+                        <small>📅 Feb 8, 2026 | 10:00 AM</small>
+                    </li>
+                    <li style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                        <strong>Ramadan Prep Class</strong><br>
+                        <small>📅 Feb 17, 2026 | After Dhuhr</small>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Location & Contact</h3>
+                <p>📍 5 Chome-22-14 Yotsugi, Katsushika City, Tokyo</p>
+                <p>📞 +81 03-5670-7426</p>
+                <p>✉️ info@makkimasjid.jp</p>
+            </div>
+        </aside>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Makki Masjid Gakuin. Serving the Community for the sake of Allah.</p>
+    </footer>
+
+    <script>
+        // Hero Slider Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        function showNextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        setInterval(showNextSlide, 5000);
+
+        // Live Clock
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('live-clock').innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Redirect logic: If already logged in, change button text
+        window.onload = () => {
+            const role = localStorage.getItem('userRole');
+            if (role) {
+                const btn = document.getElementById('nav-portal-btn');
+                btn.innerText = "Back to Dashboard";
+                btn.href = (role === 'admin') ? 'admin.html' : 'parent.html';
+            }
+        };
+
+        // ✅ Calendar Modal Logic (NEW)
+        const calendarModal = document.getElementById('calendarModal');
+        const btnOpenModal = document.getElementById('btn-open-calendar-modal');
+        const btnCloseModal = document.getElementById('btn-close-calendar-modal');
+        const previewImg = document.getElementById('calendarPreview');
+        const modalImg = document.getElementById('calendarModalImg');
+
+        function openCalendarModal() {
+            calendarModal.style.display = 'block';
+            calendarModal.setAttribute('aria-hidden', 'false');
+        }
+        function closeCalendarModal() {
+            calendarModal.style.display = 'none';
+            calendarModal.setAttribute('aria-hidden', 'true');
+        }
+
+        btnOpenModal.addEventListener('click', openCalendarModal);
+        previewImg.addEventListener('click', openCalendarModal);
+        btnCloseModal.addEventListener('click', closeCalendarModal);
+        calendarModal.addEventListener('click', (e) => {
+            if (e.target === calendarModal) closeCalendarModal();
+        });
+
+        // Escape key closes modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") closeCalendarModal();
+        });
+    </script>
+</body>
+</html>
