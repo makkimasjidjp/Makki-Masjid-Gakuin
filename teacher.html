@@ -1189,7 +1189,7 @@
                 }
                 
                 // Create log text (same format for compatibility)
-                const logText = `[Attn: ${att}] [${perf}] ${labels[0]}: Lvl ${lv.c1} Pg ${pages.p1} | ${labels[1]}: Lvl ${lv.c2} Pg ${pages.p2} | ${labels[2]}: Lvl ${lv.c3} Pg ${pages.p3}`;
+                const logText = `[Attn: ${att}] [${perf}] ${labels[0]}: LVL ${lv.c1} PG ${pages.p1} | ${labels[1]}: LVL ${lv.c2} PG ${pages.p2} | ${labels[2]}: LVL ${lv.c3} PG ${pages.p3}`;
                 
                 // Update Firebase
                 const sRef = doc(db, "students", sid);
@@ -1275,9 +1275,9 @@
                     <tr>
                         <th></th>
                         <th></th>
-                        <th>Lvl</th><th>Pg</th>
-                        <th>Lvl</th><th>Pg</th>
-                        <th>Lvl</th><th>Pg</th>
+                        <th>LVL</th><th>PG</th>
+                        <th>LVL</th><th>PG</th>
+                        <th>LVL</th><th>PG</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -1291,10 +1291,10 @@
             const progressParts = log.text.split('|');
             
             const extractData = (part) => {
-                if(!part) return { lvl: "-", pg: "-" };
-                const lMatch = part.match(/Lvl (.*?) /);
-                const pMatch = part.match(/Pg (.*?)$/);
-                return { lvl: lMatch ? lMatch[1] : "-", pg: pMatch ? pMatch[1] : "-" };
+                if(!part) return { LVL: "-", PG: "-" };
+                const lMatch = part.match(/LVL (.*?) /);
+                const pMatch = part.match(/PG (.*?)$/);
+                return { LVL: lMatch ? lMatch[1] : "-", PG: pMatch ? pMatch[1] : "-" };
             };
 
             const s1 = extractData(progressParts[0]);
@@ -1305,9 +1305,9 @@
                 <tr>
                     <td>${log.date}</td>
                     <td><span class="attn-badge attn-${attn}">${attn}</span></td>
-                    <td>${s1.lvl}</td><td>${s1.pg}</td>
-                    <td>${s2.lvl}</td><td>${s2.pg}</td>
-                    <td>${s3.lvl}</td><td>${s3.pg}</td>
+                    <td>${s1.LVL}</td><td>${s1.PG}</td>
+                    <td>${s2.LVL}</td><td>${s2.PG}</td>
+                    <td>${s3.LVL}</td><td>${s3.PG}</td>
                     <td><span class="attn-badge" style="background:#e3f2fd;">${perf}</span></td>
                 </tr>`;
         });
