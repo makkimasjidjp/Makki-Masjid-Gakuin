@@ -30,7 +30,7 @@
         }
         
         .teacher-container { 
-            max-width: 1100px; 
+            max-width: 1200px; 
             margin: 10px auto; 
             padding: 10px; 
         }
@@ -74,29 +74,6 @@
             margin-top: 0; 
             margin-bottom: 20px;
             font-size: 1.2rem;
-        }
-        
-        /* Tables */
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-top: 10px; 
-        }
-        
-        th { 
-            text-align: left; 
-            padding: 12px; 
-            background: #f8f9fa; 
-            color: #333; 
-            font-size: 0.75rem; 
-            text-transform: uppercase; 
-            border: 1px solid #ddd; 
-        }
-        
-        td { 
-            padding: 10px; 
-            border: 1px solid #eee; 
-            word-wrap: break-word; 
         }
         
         /* Tabs */
@@ -180,13 +157,13 @@
         
         .btn-ghost {
             background: white;
-            border: 1px solid var(--primary);
+            border: 2px solid var(--primary);
             color: var(--primary);
-            padding: 10px 16px;
-            border-radius: 30px;
+            padding: 12px 20px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: 600;
-            margin-bottom: 15px;
+            font-size: 1rem;
             transition: all 0.3s;
         }
         
@@ -208,6 +185,7 @@
             background: var(--gold); 
             height: 100%; 
             border-radius: 3px; 
+            transition: width 0.3s ease;
         }
         
         /* Attendance Badges */
@@ -236,240 +214,258 @@
             color: #ef6c00; 
         }
         
-        /* Mobile-Friendly Input Styles */
-        .mobile-friendly-input {
-            padding: 5px;
-        }
-        
-        .date-selector {
-            margin-bottom: 20px;
+        /* NEW: Simplified Bulk Input Grid */
+        .date-section {
             background: #f8f9fa;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
         }
         
-        .date-selector label {
-            display: block;
-            margin-bottom: 8px;
+        .date-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
             font-weight: 600;
             color: var(--primary);
+            font-size: 1.1rem;
         }
         
-        .mobile-date-input {
+        .date-input {
             width: 100%;
-            padding: 14px;
+            padding: 15px;
             border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
             font-family: inherit;
+            background: white;
         }
         
-        .mobile-date-input:focus {
+        .date-input:focus {
             border-color: var(--primary);
             outline: none;
         }
         
-        .student-cards {
-            margin-top: 15px;
-        }
-        
-        .student-card {
-            background: white;
-            border-radius: 20px;
-            padding: 18px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            border-left: 5px solid var(--primary);
-            border: 1px solid #eee;
-            transition: transform 0.2s;
-        }
-        
-        .student-card:active {
-            transform: scale(0.99);
-        }
-        
-        .student-header {
+        /* Quick Actions Bar */
+        .quick-actions {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-        
-        .student-name {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        .student-id {
-            background: var(--bg);
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            color: #666;
-        }
-        
-        /* Quick Attendance Buttons */
-        .attendance-quick {
-            display: flex;
-            gap: 8px;
+            gap: 10px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 16px;
         }
         
-        .attn-btn {
+        .quick-action-btn {
             flex: 1;
-            padding: 14px 8px;
-            border: 2px solid transparent;
-            border-radius: 12px;
-            font-weight: bold;
+            min-width: 100px;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
             font-size: 0.9rem;
             cursor: pointer;
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
             transition: all 0.2s;
-            background: #f5f5f5;
-            color: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
         }
         
-        .attn-btn.present.active {
-            background: #e8f5e9;
-            color: #2e7d32;
-            border-color: #2e7d32;
+        .quick-action-btn:hover {
+            background: var(--primary);
+            color: white;
         }
         
-        .attn-btn.absent.active {
-            background: #ffebee;
-            color: #c62828;
-            border-color: #c62828;
+        /* Student Grid */
+        .student-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
         }
         
-        .attn-btn.late.active {
-            background: #fff3e0;
-            color: #ef6c00;
-            border-color: #ef6c00;
-        }
-        
-        /* Subject Progress Cards */
-        .subject-progress {
-            background: #f8f9fa;
+        .student-grid-item {
+            background: white;
+            border: 1px solid #e0e0e0;
             border-radius: 16px;
             padding: 15px;
-            margin-bottom: 15px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         
-        .subject-header {
+        .student-grid-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: var(--primary);
+        }
+        
+        .student-grid-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .student-grid-name {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .student-grid-id {
+            background: var(--bg);
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #666;
+        }
+        
+        /* Attendance Toggle Buttons */
+        .attendance-toggle {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+            background: #f5f5f5;
+            padding: 5px;
+            border-radius: 12px;
+        }
+        
+        .att-toggle-btn {
+            flex: 1;
+            padding: 10px 5px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            background: transparent;
+            color: #666;
+            transition: all 0.2s;
+        }
+        
+        .att-toggle-btn.active[data-value="P"] {
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-weight: 700;
+        }
+        
+        .att-toggle-btn.active[data-value="A"] {
+            background: #ffebee;
+            color: #c62828;
+            font-weight: 700;
+        }
+        
+        .att-toggle-btn.active[data-value="L"] {
+            background: #fff3e0;
+            color: #ef6c00;
+            font-weight: 700;
+        }
+        
+        /* Subject Row */
+        .subject-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+        
+        .subject-label {
+            width: 40px;
             font-weight: 600;
             color: var(--primary);
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         
-        .current-level {
-            background: var(--primary-light);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-        
-        .progress-inputs {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .progress-inputs select,
-        .progress-inputs input {
+        .subject-level {
             flex: 1;
-            padding: 12px;
-            border: 2px solid #ddd;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            width: 80px;
+            text-align: center;
+        }
+        
+        .subject-page {
+            flex: 2;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 1rem;
             background: white;
-            font-family: inherit;
         }
         
-        .progress-inputs input:focus,
-        .progress-inputs select:focus {
+        .subject-level:focus,
+        .subject-page:focus {
             border-color: var(--primary);
             outline: none;
         }
         
-        .progress-inputs input.error {
+        .subject-level.error {
             border-color: var(--danger);
             background: #ffebee;
         }
         
-        /* Performance Rating */
-        .performance-rating {
-            margin-top: 15px;
-        }
-        
-        .performance-rating label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: var(--primary);
-        }
-        
-        .rating-buttons {
+        /* Performance Quick Select */
+        .performance-quick {
             display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+            background: #f5f5f5;
+            padding: 5px;
+            border-radius: 12px;
         }
         
-        .rating-btn {
+        .perf-quick-btn {
             flex: 1;
-            min-width: 70px;
-            padding: 12px 6px;
-            border: 2px solid transparent;
-            border-radius: 12px;
-            background: #f5f5f5;
-            font-size: 0.85rem;
+            padding: 8px 5px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
+            background: transparent;
+            color: #666;
             transition: all 0.2s;
-            color: #333;
         }
         
-        .rating-btn.excellent.active { 
-            background: #4caf50; 
-            color: white; 
-            border-color: #2e7d32;
-        }
-        .rating-btn.good.active { 
-            background: #2196f3; 
-            color: white; 
-            border-color: #1565c0;
-        }
-        .rating-btn.average.active { 
-            background: #ff9800; 
-            color: white; 
-            border-color: #c66900;
-        }
-        .rating-btn.poor.active { 
-            background: #f44336; 
-            color: white; 
-            border-color: #c62828;
-        }
-        
-        /* Student Counter */
-        .student-counter {
-            text-align: center;
-            padding: 12px;
-            background: var(--primary);
+        .perf-quick-btn.active[data-value="Excellent"] {
+            background: #4caf50;
             color: white;
-            border-radius: 30px;
-            margin: 15px 0;
-            font-weight: bold;
-            font-size: 0.95rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .perf-quick-btn.active[data-value="Good"] {
+            background: #2196f3;
+            color: white;
+        }
+        
+        .perf-quick-btn.active[data-value="Average"] {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .perf-quick-btn.active[data-value="Poor"] {
+            background: #f44336;
+            color: white;
+        }
+        
+        /* Progress Summary */
+        .progress-summary {
+            margin-top: 15px;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+        
+        .progress-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
         }
         
         /* Toast Notification */
@@ -551,56 +547,71 @@
         }
         
         /* History Table */
+        .hist-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        
         .hist-table th { 
-            text-align: center !important; 
-            color: white !important; 
+            text-align: center; 
+            color: white; 
             background: var(--primary); 
             padding: 12px 5px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
         }
         
         .hist-table td { 
             text-align: center; 
-            font-size: 0.85rem; 
-            padding: 8px 3px;
+            padding: 10px 5px;
+            border: 1px solid #ddd;
         }
         
         /* Responsive */
         @media (max-width: 768px) {
-            .tab-container {
-                flex-wrap: nowrap;
-                justify-content: flex-start;
+            .student-grid {
+                grid-template-columns: 1fr;
             }
             
-            .tab-btn {
-                min-width: 90px;
-                padding: 10px 12px;
-                font-size: 0.8rem;
-            }
-            
-            .student-name {
-                font-size: 1.1rem;
-            }
-            
-            .attn-btn {
-                padding: 12px 4px;
-                font-size: 0.8rem;
-            }
-            
-            .rating-btn {
-                font-size: 0.75rem;
-                padding: 10px 4px;
-            }
-            
-            .progress-inputs {
+            .quick-actions {
                 flex-direction: column;
-                gap: 8px;
             }
             
-            .progress-inputs select,
-            .progress-inputs input {
+            .quick-action-btn {
                 width: 100%;
             }
+            
+            .subject-row {
+                flex-wrap: wrap;
+            }
+            
+            .subject-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+            
+            .subject-level,
+            .subject-page {
+                flex: 1;
+            }
+        }
+        
+        /* Progress Table */
+        .progress-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .progress-table th {
+            text-align: left;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+        }
+        
+        .progress-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
         }
     </style>
 </head>
@@ -630,9 +641,9 @@
         <div class="section">
             <h3>📖 Student Progress Overview</h3>
             <div style="overflow-x: auto;">
-                <table id="progressTable">
+                <table class="progress-table">
                     <thead>
-                        <tr><th style="width: 30%;">Student Name</th><th>Level Progress</th></tr>
+                        <tr><th>Student Name</th><th>Level Progress</th></tr>
                     </thead>
                     <tbody id="myStudentList">
                         <tr><td colspan="2" style="text-align:center;">Loading students...</td></tr>
@@ -642,49 +653,37 @@
         </div>
     </div>
 
-    <!-- Daily Input Tab (Mobile Friendly) -->
+    <!-- Daily Input Tab - Simplified Grid View -->
     <div id="inputTab" class="tab-content">
         <div class="section">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="margin: 0;">📝 Daily Log Entry</h3>
-                <button class="btn-ghost" id="toggleViewBtn" onclick="toggleViewMode()">🔄 Switch to Table View</button>
-            </div>
+            <h3>📝 Daily Class Records</h3>
             
-            <!-- Mobile-Friendly Input Container -->
-            <div id="mobileFriendlyInput" class="mobile-friendly-input">
-                <!-- Dynamically populated by JavaScript -->
-            </div>
-            
-            <!-- Hidden Table View (kept for compatibility and switching) -->
-            <div id="tableView" style="display: none;">
-                <div style="overflow-x: auto;">
-                    <table style="min-width:1100px; font-size: 0.85rem;">
-                        <thead>
-                            <tr style="background:#f8f9fa;">
-                                <th style="width:40px;">Sl</th>
-                                <th style="width:150px;">Name</th>
-                                <th style="width:70px;">Attn</th>
-                                <th colspan="2" id="h-s1" style="background:#e3f2fd; text-align:center;">S1</th>
-                                <th colspan="2" id="h-s2" style="background:#f1f8e9; text-align:center;">S2</th>
-                                <th colspan="2" id="h-s3" style="background:#fff3e0; text-align:center;">S3</th>
-                                <th style="width:120px;">Perf.</th>
-                            </tr>
-                            <tr style="font-size:0.7rem; background:#eee;">
-                                <th colspan="3"></th>
-                                <th style="text-align:center;">Lvl</th>
-                                <th style="text-align:center;">Page</th>
-                                <th style="text-align:center;">Lvl</th>
-                                <th style="text-align:center;">Page</th>
-                                <th style="text-align:center;">Lvl</th>
-                                <th style="text-align:center;">Page</th>
-                                <th style="text-align:center;">Remark</th>
-                            </tr>
-                        </thead>
-                        <tbody id="batchTableBody"></tbody>
-                    </table>
+            <!-- Date Selection -->
+            <div class="date-section">
+                <div class="date-label">
+                    <span>📅</span>
+                    <span>Select Date</span>
                 </div>
-                <button class="btn-submit" id="saveAllBtn" onclick="saveAllBatch()">Submit All Records</button>
+                <input type="date" id="batchDate" class="date-input" value="">
             </div>
+            
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <button class="quick-action-btn" onclick="setAllAttendance('P')">✅ All Present</button>
+                <button class="quick-action-btn" onclick="setAllAttendance('A')">❌ All Absent</button>
+                <button class="quick-action-btn" onclick="setAllPerformance('Good')">⭐ All Good</button>
+                <button class="quick-action-btn" onclick="resetPageNumbers()">📄 Reset Pages</button>
+            </div>
+            
+            <!-- Student Grid Container -->
+            <div id="studentGridContainer">
+                <!-- Dynamically populated -->
+            </div>
+            
+            <!-- Submit Button -->
+            <button class="btn-submit" id="submitAllBtn" onclick="submitAllRecords()">
+                💾 Save All Records
+            </button>
         </div>
     </div>
 
@@ -697,7 +696,7 @@
                     <option value="">-- Choose Student --</option>
                 </select>
                 <select id="historyMonthFilter">
-                    <option value="all">Show All Months</option>
+                    <option value="all">All Months</option>
                     <option value="01">January</option>
                     <option value="02">February</option>
                     <option value="03">March</option>
@@ -713,7 +712,7 @@
                 </select>
             </div>
             <div id="historyResult" style="overflow-x: auto;">
-                <p style="color:#666; text-align:center; padding:20px;">Select a student to view the academic table.</p>
+                <p style="color:#666; text-align:center; padding:20px;">Select a student to view records</p>
             </div>
         </div>
     </div>
@@ -743,9 +742,7 @@
 
     const teacherEmail = localStorage.getItem('userEmail');
     let teacherData = null;
-    let viewMode = 'mobile'; // 'mobile' or 'table'
-    let autoSaveTimer;
-    let currentStudentIndex = 0;
+    let studentsList = [];
 
     // Initialize
     async function init() {
@@ -759,6 +756,11 @@
                 teacherData = tDoc.data();
                 document.getElementById('teacherGreeting').innerText = "Assalamu Alaikum, " + (teacherData.name || "Teacher");
                 document.getElementById('divisionInfo').innerText = "Division: " + (teacherData.division || "Not Assigned");
+                
+                // Set today's date
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('batchDate').value = today;
+                
                 loadNotice();
                 loadStudents();
             } else {
@@ -777,31 +779,8 @@
         document.getElementById('btn-' + tabId).classList.add('active');
         
         if(tabId === 'dashboard') loadStudents();
-        if(tabId === 'inputTab') {
-            if (viewMode === 'mobile') {
-                renderMobileFriendlyInput();
-            } else {
-                renderTableInput();
-            }
-        }
+        if(tabId === 'inputTab') renderStudentGrid();
         if(tabId === 'historyTab') populateHistoryDropdown();
-    };
-
-    // Toggle between mobile and table view
-    window.toggleViewMode = () => {
-        viewMode = viewMode === 'mobile' ? 'table' : 'mobile';
-        const toggleBtn = document.getElementById('toggleViewBtn');
-        toggleBtn.innerHTML = viewMode === 'mobile' ? '🔄 Switch to Table View' : '🔄 Switch to Card View';
-        
-        if (viewMode === 'mobile') {
-            document.getElementById('mobileFriendlyInput').style.display = 'block';
-            document.getElementById('tableView').style.display = 'none';
-            renderMobileFriendlyInput();
-        } else {
-            document.getElementById('mobileFriendlyInput').style.display = 'none';
-            document.getElementById('tableView').style.display = 'block';
-            renderTableInput();
-        }
     };
 
     // Load students for dashboard
@@ -843,194 +822,207 @@
         });
     }
 
-    // Render Mobile-Friendly Input
-    async function renderMobileFriendlyInput() {
-        const container = document.getElementById('mobileFriendlyInput');
+    // Render Student Grid (Simplified Bulk Input)
+    async function renderStudentGrid() {
+        const container = document.getElementById('studentGridContainer');
         const labels = divisionLabels[teacherData.division] || ["S1", "S2", "S3"];
-        
-        // Set date
-        const dateHtml = `
-            <div class="date-selector">
-                <label>📅 Select Date</label>
-                <input type="date" id="mobileBatchDate" class="mobile-date-input" value="${new Date().toISOString().split('T')[0]}">
-            </div>
-        `;
         
         // Fetch students
         const q = query(collection(db, "students"), where("division", "==", teacherData.division));
         const snap = await getDocs(q);
         
         if (snap.empty) {
-            container.innerHTML = dateHtml + '<p style="text-align:center; padding:20px;">No students found</p>';
+            container.innerHTML = '<p style="text-align:center; padding:20px;">No students found</p>';
             return;
         }
+        
+        studentsList = [];
         
         // Generate page options based on division
         const maxPages = teacherData.division === "Hifz" ? 604 : 
                          teacherData.division === "Nazera" ? 604 : 50;
-        let pageOptions = '<option value="-">-</option>';
-        for(let p=1; p<=maxPages; p++) {
-            if (maxPages > 100 && p % 5 !== 0 && p !== maxPages) continue; // Show every 5th page for large ranges
-            pageOptions += `<option value="${p}">${p}</option>`;
-        }
         
-        let cardsHtml = '';
-        const students = [];
+        let gridHtml = '<div class="student-grid">';
         
         snap.forEach(doc => {
-            students.push({ id: doc.id, data: doc.data() });
-        });
-        
-        // Store students array for navigation
-        window.studentsList = students;
-        
-        students.forEach((student, index) => {
-            const s = student.data;
+            const s = doc.data();
+            studentsList.push({ id: doc.id, data: s });
             const lv = s.levels || {c1:0, c2:0, c3:0};
             
-            cardsHtml += `
-                <div class="student-card" data-sid="${student.id}" data-name="${s.name}" data-index="${index}" 
-                     style="${index === 0 ? 'display:block' : 'display:none'}">
-                    <div class="student-header">
-                        <span class="student-name">${s.name}</span>
-                        <span class="student-id">#${student.id.slice(-4)}</span>
+            gridHtml += `
+                <div class="student-grid-item" data-student-id="${doc.id}">
+                    <div class="student-grid-header">
+                        <span class="student-grid-name">${s.name}</span>
+                        <span class="student-grid-id">#${doc.id.slice(-4)}</span>
                     </div>
                     
-                    <div class="attendance-quick">
-                        <button type="button" class="attn-btn present" onclick="setAttendance('${student.id}', 'P', event)">✅ Present</button>
-                        <button type="button" class="attn-btn absent" onclick="setAttendance('${student.id}', 'A', event)">❌ Absent</button>
-                        <button type="button" class="attn-btn late" onclick="setAttendance('${student.id}', 'L', event)">⏰ Late</button>
+                    <!-- Attendance Toggle -->
+                    <div class="attendance-toggle">
+                        <button type="button" class="att-toggle-btn" data-value="P" onclick="setAttendance('${doc.id}', 'P', event)">✅ Present</button>
+                        <button type="button" class="att-toggle-btn" data-value="A" onclick="setAttendance('${doc.id}', 'A', event)">❌ Absent</button>
+                        <button type="button" class="att-toggle-btn" data-value="L" onclick="setAttendance('${doc.id}', 'L', event)">⏰ Late</button>
                     </div>
-                    <input type="hidden" class="attn-${student.id}" value="P">
+                    <input type="hidden" id="att-${doc.id}" value="P">
                     
+                    <!-- Subjects -->
                     ${[0,1,2].map(i => `
-                        <div class="subject-progress">
-                            <div class="subject-header">
-                                <span>📚 ${labels[i]}</span>
-                                <span class="current-level">Current: ${lv[`c${i+1}`]}</span>
-                            </div>
-                            <div class="progress-inputs">
-                                <input type="number" class="level-input-${student.id}-${i}" 
-                                       value="${lv[`c${i+1}`]}" placeholder="Level" min="0" step="1" 
-                                       oninput="validateInput(this)" onchange="triggerAutoSave()">
-                                <select class="page-input-${student.id}-${i}" onchange="triggerAutoSave()">
-                                    ${pageOptions}
-                                </select>
-                            </div>
+                        <div class="subject-row">
+                            <span class="subject-label">${labels[i]}</span>
+                            <input type="number" class="subject-level" id="level-${doc.id}-${i}" 
+                                   value="${lv[`c${i+1}`]}" min="0" placeholder="Level" 
+                                   oninput="validateInput(this)" onchange="updateProgress('${doc.id}')">
+                            <select class="subject-page" id="page-${doc.id}-${i}" onchange="updateProgress('${doc.id}')">
+                                <option value="-">-</option>
+                                ${generatePageOptions(maxPages, '-')}
+                            </select>
                         </div>
                     `).join('')}
                     
-                    <div class="performance-rating">
-                        <label>⭐ Performance Today:</label>
-                        <div class="rating-buttons">
-                            <button type="button" class="rating-btn excellent" onclick="setPerformance('${student.id}', 'Excellent', event)">Excellent</button>
-                            <button type="button" class="rating-btn good" onclick="setPerformance('${student.id}', 'Good', event)">Good</button>
-                            <button type="button" class="rating-btn average" onclick="setPerformance('${student.id}', 'Average', event)">Average</button>
-                            <button type="button" class="rating-btn poor" onclick="setPerformance('${student.id}', 'Poor', event)">Poor</button>
+                    <!-- Performance Quick Select -->
+                    <div class="performance-quick">
+                        <button type="button" class="perf-quick-btn" data-value="Excellent" onclick="setPerformance('${doc.id}', 'Excellent', event)">✨ Excellent</button>
+                        <button type="button" class="perf-quick-btn" data-value="Good" onclick="setPerformance('${doc.id}', 'Good', event)">👍 Good</button>
+                        <button type="button" class="perf-quick-btn" data-value="Average" onclick="setPerformance('${doc.id}', 'Average', event)">👌 Average</button>
+                        <button type="button" class="perf-quick-btn" data-value="Poor" onclick="setPerformance('${doc.id}', 'Poor', event)">⚠️ Poor</button>
+                    </div>
+                    <input type="hidden" id="perf-${doc.id}" value="Good">
+                    
+                    <!-- Progress Summary -->
+                    <div class="progress-summary" id="summary-${doc.id}">
+                        <div class="progress-row">
+                            <span>📊 Current:</span>
+                            <span>${labels[0]}: ${lv.c1} | ${labels[1]}: ${lv.c2} | ${labels[2]}: ${lv.c3}</span>
                         </div>
-                        <input type="hidden" class="perf-${student.id}" value="Good">
                     </div>
                 </div>
             `;
         });
         
-        // Add navigation counter
-        const counterHtml = `
-            <div class="student-counter" id="studentCounter">
-                Student 1 of ${students.length} 👈 Swipe to navigate 👉
-            </div>
-        `;
+        gridHtml += '</div>';
+        container.innerHTML = gridHtml;
         
-        container.innerHTML = dateHtml + counterHtml + cardsHtml + `
-            <button class="btn-submit" id="mobileSaveBtn" onclick="saveAllBatch()">
-                ✅ Submit All Records
-            </button>
-        `;
-        
-        // Setup swipe navigation
-        setupSwipeNavigation();
-        
-        // Load draft if exists
+        // Load any saved draft
         loadDraft();
     }
 
-    // Render Table Input (original view)
-    async function renderTableInput() {
-        const tbody = document.getElementById('batchTableBody');
-        document.getElementById('batchDate').valueAsDate = new Date();
-        const labels = divisionLabels[teacherData.division] || ["S1", "S2", "S3"];
-        document.getElementById('h-s1').innerText = labels[0];
-        document.getElementById('h-s2').innerText = labels[1];
-        document.getElementById('h-s3').innerText = labels[2];
-
-        const q = query(collection(db, "students"), where("division", "==", teacherData.division));
-        const snap = await getDocs(q);
-        
-        let pageOptions = `<option value="-">-</option>`;
-        const maxPages = teacherData.division === "Hifz" ? 604 : 
-                         teacherData.division === "Nazera" ? 604 : 50;
+    // Generate page options
+    function generatePageOptions(maxPages, selected) {
+        let options = '';
         for(let p=1; p<=maxPages; p++) {
-            if (maxPages > 100 && p % 5 !== 0 && p !== maxPages) continue;
-            pageOptions += `<option value="${p}">${p}</option>`;
+            if (maxPages > 100 && p % 5 !== 0 && p !== maxPages && p !== 1) continue;
+            options += `<option value="${p}" ${selected == p ? 'selected' : ''}>${p}</option>`;
         }
-
-        let html = "";
-        let i = 1;
-        snap.forEach(doc => {
-            const s = doc.data();
-            const lv = s.levels || {c1:0, c2:0, c3:0};
-            html += `<tr data-sid="${doc.id}" data-name="${s.name}">
-                <td style="text-align:center;">${i++}</td>
-                <td><strong>${s.name}</strong></td>
-                <td>
-                    <select class="batch-input attn">
-                        <option value="P">P</option>
-                        <option value="A">A</option>
-                        <option value="L">L</option>
-                    </select>
-                </td>
-                <td><input type="number" class="batch-input l1" value="${lv.c1}" min="0"></td>
-                <td><select class="batch-input p1">${pageOptions}</select></td>
-                <td><input type="number" class="batch-input l2" value="${lv.c2}" min="0"></td>
-                <td><select class="batch-input p2">${pageOptions}</select></td>
-                <td><input type="number" class="batch-input l3" value="${lv.c3}" min="0"></td>
-                <td><select class="batch-input p3">${pageOptions}</select></td>
-                <td>
-                    <select class="batch-input perf">
-                        <option value="Excellent">Excellent</option>
-                        <option value="Good" selected>Good</option>
-                        <option value="Average">Average</option>
-                        <option value="Poor">Poor</option>
-                    </select>
-                </td>
-            </tr>`;
-        });
-        tbody.innerHTML = html;
+        return options;
     }
 
-    // Mobile Helper Functions
+    // Set attendance for a student
     window.setAttendance = (studentId, value, event) => {
-        document.querySelector(`.attn-${studentId}`).value = value;
+        document.getElementById(`att-${studentId}`).value = value;
         
         // Update button styles
-        const parent = event.target.closest('.attendance-quick');
-        parent.querySelectorAll('.attn-btn').forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
+        const container = event.target.closest('.attendance-toggle');
+        container.querySelectorAll('.att-toggle-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.value === value) {
+                btn.classList.add('active');
+            }
+        });
         
         triggerAutoSave();
     };
 
+    // Set performance for a student
     window.setPerformance = (studentId, value, event) => {
-        document.querySelector(`.perf-${studentId}`).value = value;
+        document.getElementById(`perf-${studentId}`).value = value;
         
         // Update button styles
-        const parent = event.target.closest('.rating-buttons');
-        parent.querySelectorAll('.rating-btn').forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
+        const container = event.target.closest('.performance-quick');
+        container.querySelectorAll('.perf-quick-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.value === value) {
+                btn.classList.add('active');
+            }
+        });
         
         triggerAutoSave();
     };
 
+    // Set all students to same attendance
+    window.setAllAttendance = (value) => {
+        studentsList.forEach(student => {
+            document.getElementById(`att-${student.id}`).value = value;
+            
+            // Update button styles
+            const studentCard = document.querySelector(`[data-student-id="${student.id}"]`);
+            const container = studentCard.querySelector('.attendance-toggle');
+            container.querySelectorAll('.att-toggle-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.value === value) {
+                    btn.classList.add('active');
+                }
+            });
+        });
+        
+        showToast(`All students marked as ${value === 'P' ? 'Present' : value === 'A' ? 'Absent' : 'Late'}`);
+        triggerAutoSave();
+    };
+
+    // Set all students to same performance
+    window.setAllPerformance = (value) => {
+        studentsList.forEach(student => {
+            document.getElementById(`perf-${student.id}`).value = value;
+            
+            // Update button styles
+            const studentCard = document.querySelector(`[data-student-id="${student.id}"]`);
+            const container = studentCard.querySelector('.performance-quick');
+            container.querySelectorAll('.perf-quick-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.value === value) {
+                    btn.classList.add('active');
+                }
+            });
+        });
+        
+        showToast(`All students set to ${value}`);
+        triggerAutoSave();
+    };
+
+    // Reset all page numbers to default
+    window.resetPageNumbers = () => {
+        if (confirm('Reset all page numbers to "-"?')) {
+            studentsList.forEach(student => {
+                for(let i=0; i<3; i++) {
+                    const pageSelect = document.getElementById(`page-${student.id}-${i}`);
+                    if (pageSelect) pageSelect.value = '-';
+                }
+            });
+            showToast('All pages reset');
+            triggerAutoSave();
+        }
+    };
+
+    // Update progress summary
+    window.updateProgress = (studentId) => {
+        const summary = document.getElementById(`summary-${studentId}`);
+        const labels = divisionLabels[teacherData.division] || ["S1", "S2", "S3"];
+        
+        const levels = [];
+        for(let i=0; i<3; i++) {
+            const levelInput = document.getElementById(`level-${studentId}-${i}`);
+            levels.push(levelInput ? levelInput.value : '0');
+        }
+        
+        summary.innerHTML = `
+            <div class="progress-row">
+                <span>📊 Current:</span>
+                <span>${labels[0]}: ${levels[0]} | ${labels[1]}: ${levels[1]} | ${labels[2]}: ${levels[2]}</span>
+            </div>
+        `;
+        
+        triggerAutoSave();
+    };
+
+    // Validate input
     window.validateInput = (input) => {
         const val = parseInt(input.value);
         if (val < 0) {
@@ -1042,188 +1034,135 @@
         }
     };
 
-    // Auto-save draft
-    window.triggerAutoSave = () => {
+    // Auto-save
+    let autoSaveTimer;
+    function triggerAutoSave() {
         clearTimeout(autoSaveTimer);
         autoSaveTimer = setTimeout(() => {
             saveDraft();
             showToast('📝 Draft saved');
         }, 2000);
-    };
+    }
 
+    // Save draft to localStorage
     function saveDraft() {
-        if (!window.studentsList) return;
-        
         const draft = {};
-        window.studentsList.forEach(student => {
+        studentsList.forEach(student => {
             const sid = student.id;
-            const attn = document.querySelector(`.attn-${sid}`)?.value || 'P';
-            const perf = document.querySelector(`.perf-${sid}`)?.value || 'Good';
+            const att = document.getElementById(`att-${sid}`)?.value || 'P';
+            const perf = document.getElementById(`perf-${sid}`)?.value || 'Good';
             
-            const levels = {};
+            const levels = [];
+            const pages = [];
             for(let i=0; i<3; i++) {
-                const levelInput = document.querySelector(`.level-input-${sid}-${i}`);
-                const pageSelect = document.querySelector(`.page-input-${sid}-${i}`);
-                if (levelInput) levels[`c${i+1}`] = levelInput.value;
-                if (pageSelect) levels[`p${i+1}`] = pageSelect.value;
+                const levelInput = document.getElementById(`level-${sid}-${i}`);
+                const pageSelect = document.getElementById(`page-${sid}-${i}`);
+                levels.push(levelInput ? levelInput.value : '0');
+                pages.push(pageSelect ? pageSelect.value : '-');
             }
             
-            draft[sid] = { attn, perf, ...levels };
+            draft[sid] = { att, perf, levels, pages };
         });
         
         localStorage.setItem('teacherDraft', JSON.stringify({
-            date: document.getElementById('mobileBatchDate')?.value,
+            date: document.getElementById('batchDate')?.value,
             data: draft
         }));
     }
 
+    // Load draft from localStorage
     function loadDraft() {
         const draft = JSON.parse(localStorage.getItem('teacherDraft'));
         if (!draft || !draft.data) return;
         
-        const draftDate = draft.date;
-        const currentDate = document.getElementById('mobileBatchDate')?.value;
+        const currentDate = document.getElementById('batchDate')?.value;
         
-        if (draftDate === currentDate) {
+        if (draft.date === currentDate) {
             Object.entries(draft.data).forEach(([sid, values]) => {
                 // Set attendance
-                const attnInput = document.querySelector(`.attn-${sid}`);
-                if (attnInput) {
-                    attnInput.value = values.attn || 'P';
-                    // Highlight active button
-                    const attnBtn = document.querySelector(`.attn-btn.${values.attn === 'P' ? 'present' : values.attn === 'A' ? 'absent' : 'late'}`);
-                    if (attnBtn) attnBtn.classList.add('active');
+                const attInput = document.getElementById(`att-${sid}`);
+                if (attInput) {
+                    attInput.value = values.att || 'P';
+                    
+                    // Update button styles
+                    const studentCard = document.querySelector(`[data-student-id="${sid}"]`);
+                    if (studentCard) {
+                        const attContainer = studentCard.querySelector('.attendance-toggle');
+                        attContainer.querySelectorAll('.att-toggle-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                            if (btn.dataset.value === values.att) {
+                                btn.classList.add('active');
+                            }
+                        });
+                    }
                 }
                 
                 // Set performance
-                const perfInput = document.querySelector(`.perf-${sid}`);
+                const perfInput = document.getElementById(`perf-${sid}`);
                 if (perfInput) {
                     perfInput.value = values.perf || 'Good';
-                    const perfBtn = document.querySelector(`.rating-btn.${values.perf?.toLowerCase()}`);
-                    if (perfBtn) perfBtn.classList.add('active');
+                    
+                    const studentCard = document.querySelector(`[data-student-id="${sid}"]`);
+                    if (studentCard) {
+                        const perfContainer = studentCard.querySelector('.performance-quick');
+                        perfContainer.querySelectorAll('.perf-quick-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                            if (btn.dataset.value === values.perf) {
+                                btn.classList.add('active');
+                            }
+                        });
+                    }
                 }
                 
                 // Set levels and pages
-                for(let i=0; i<3; i++) {
-                    const levelInput = document.querySelector(`.level-input-${sid}-${i}`);
-                    const pageSelect = document.querySelector(`.page-input-${sid}-${i}`);
-                    
-                    if (levelInput && values[`c${i+1}`]) {
-                        levelInput.value = values[`c${i+1}`];
-                    }
-                    if (pageSelect && values[`p${i+1}`]) {
-                        pageSelect.value = values[`p${i+1}`];
-                    }
+                if (values.levels) {
+                    values.levels.forEach((level, i) => {
+                        const levelInput = document.getElementById(`level-${sid}-${i}`);
+                        if (levelInput) levelInput.value = level;
+                    });
                 }
+                
+                if (values.pages) {
+                    values.pages.forEach((page, i) => {
+                        const pageSelect = document.getElementById(`page-${sid}-${i}`);
+                        if (pageSelect) pageSelect.value = page;
+                    });
+                }
+                
+                updateProgress(sid);
             });
             
             showToast('📂 Draft loaded');
         }
     }
 
-    // Swipe navigation
-    function setupSwipeNavigation() {
-        let touchstartX = 0;
-        let touchendX = 0;
-        
-        document.addEventListener('touchstart', e => {
-            touchstartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-        
-        document.addEventListener('touchend', e => {
-            touchendX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, { passive: true });
-        
-        function handleSwipe() {
-            const cards = document.querySelectorAll('.student-card');
-            if (cards.length === 0) return;
-            
-            // Find current visible card
-            let currentIndex = 0;
-            cards.forEach((card, idx) => {
-                if (card.style.display !== 'none') {
-                    currentIndex = idx;
-                }
-            });
-            
-            // Hide all
-            cards.forEach(card => card.style.display = 'none');
-            
-            if (touchendX < touchstartX - 50) {
-                // Swipe left - next
-                currentIndex = (currentIndex + 1) % cards.length;
-            } else if (touchendX > touchstartX + 50) {
-                // Swipe right - previous
-                currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-            } else {
-                // No swipe, show current
-                cards[currentIndex].style.display = 'block';
-                updateCounter(currentIndex, cards.length);
-                return;
-            }
-            
-            // Show new card
-            cards[currentIndex].style.display = 'block';
-            updateCounter(currentIndex, cards.length);
-        }
-    }
-
-    function updateCounter(current, total) {
-        const counter = document.getElementById('studentCounter');
-        if (counter) {
-            counter.innerHTML = `Student ${current + 1} of ${total} 👈 Swipe to navigate 👉`;
-        }
-    }
-
-    // Show toast notification
-    function showToast(message) {
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.textContent = message;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 2000);
-    }
-
-    // Save all records (works for both views)
-    window.saveAllBatch = async () => {
-        let rows, logDate;
-        
-        if (viewMode === 'mobile') {
-            rows = document.querySelectorAll('.student-card');
-            logDate = document.getElementById('mobileBatchDate')?.value;
-        } else {
-            rows = document.querySelectorAll('#batchTableBody tr');
-            logDate = document.getElementById('batchDate').value;
-        }
+    // Submit all records
+    window.submitAllRecords = async () => {
+        const logDate = document.getElementById('batchDate').value;
         
         if (!logDate) { 
             showToast("⚠️ Please select a date");
             return; 
         }
         
-        if (rows.length === 0) return;
-        
         // Validate inputs
         let hasError = false;
-        if (viewMode === 'mobile') {
-            document.querySelectorAll('input[type="number"]').forEach(input => {
-                if (parseInt(input.value) < 0) {
-                    input.classList.add('error');
-                    hasError = true;
-                }
-            });
-        }
+        document.querySelectorAll('.subject-level').forEach(input => {
+            if (parseInt(input.value) < 0) {
+                input.classList.add('error');
+                hasError = true;
+            }
+        });
         
         if (hasError) {
             showToast("⚠️ Please fix negative values");
             return;
         }
         
-        const confirmSave = confirm(`Submit records for ${rows.length} students?`);
+        const confirmSave = confirm(`Submit records for ${studentsList.length} students?`);
         if (!confirmSave) return;
 
-        const btn = viewMode === 'mobile' ? document.getElementById('mobileSaveBtn') : document.getElementById('saveAllBtn');
+        const btn = document.getElementById('submitAllBtn');
         btn.disabled = true;
         btn.innerHTML = '<span class="spinner"></span> Saving...';
 
@@ -1231,42 +1170,26 @@
             const labels = divisionLabels[teacherData.division] || ["S1", "S2", "S3"];
             let successCount = 0;
             
-            for (let row of rows) {
-                let sid, attn, perf, lv = {c1:0, c2:0, c3:0};
-                let pages = {p1:'-', p2:'-', p3:'-'};
+            for (let student of studentsList) {
+                const sid = student.id;
                 
-                if (viewMode === 'mobile') {
-                    sid = row.dataset.sid;
-                    attn = document.querySelector(`.attn-${sid}`)?.value || 'P';
-                    perf = document.querySelector(`.perf-${sid}`)?.value || 'Good';
+                // Get values
+                const att = document.getElementById(`att-${sid}`)?.value || 'P';
+                const perf = document.getElementById(`perf-${sid}`)?.value || 'Good';
+                
+                const lv = {c1:0, c2:0, c3:0};
+                const pages = {p1:'-', p2:'-', p3:'-'};
+                
+                for(let i=0; i<3; i++) {
+                    const levelInput = document.getElementById(`level-${sid}-${i}`);
+                    const pageSelect = document.getElementById(`page-${sid}-${i}`);
                     
-                    for(let i=0; i<3; i++) {
-                        const levelInput = document.querySelector(`.level-input-${sid}-${i}`);
-                        const pageSelect = document.querySelector(`.page-input-${sid}-${i}`);
-                        
-                        if (levelInput) lv[`c${i+1}`] = parseInt(levelInput.value) || 0;
-                        if (pageSelect) pages[`p${i+1}`] = pageSelect.value;
-                    }
-                } else {
-                    sid = row.dataset.sid;
-                    attn = row.querySelector('.attn')?.value || 'P';
-                    perf = row.querySelector('.perf')?.value || 'Good';
-                    
-                    lv = {
-                        c1: parseInt(row.querySelector('.l1')?.value) || 0,
-                        c2: parseInt(row.querySelector('.l2')?.value) || 0,
-                        c3: parseInt(row.querySelector('.l3')?.value) || 0
-                    };
-                    
-                    pages = {
-                        p1: row.querySelector('.p1')?.value || '-',
-                        p2: row.querySelector('.p2')?.value || '-',
-                        p3: row.querySelector('.p3')?.value || '-'
-                    };
+                    if (levelInput) lv[`c${i+1}`] = parseInt(levelInput.value) || 0;
+                    if (pageSelect) pages[`p${i+1}`] = pageSelect.value;
                 }
                 
                 // Create log text (same format for compatibility)
-                const logText = `[Attn: ${attn}] [${perf}] ${labels[0]}: Lvl ${lv.c1} Pg ${pages.p1} | ${labels[1]}: Lvl ${lv.c2} Pg ${pages.p2} | ${labels[2]}: Lvl ${lv.c3} Pg ${pages.p3}`;
+                const logText = `[Attn: ${att}] [${perf}] ${labels[0]}: Lvl ${lv.c1} Pg ${pages.p1} | ${labels[1]}: Lvl ${lv.c2} Pg ${pages.p2} | ${labels[2]}: Lvl ${lv.c3} Pg ${pages.p3}`;
                 
                 // Update Firebase
                 const sRef = doc(db, "students", sid);
@@ -1291,11 +1214,20 @@
             showToast("❌ Error: " + e.message); 
         } finally {
             btn.disabled = false;
-            btn.innerHTML = "✅ Submit All Records";
+            btn.innerHTML = "💾 Save All Records";
         }
     };
 
-    // History functions (unchanged)
+    // Show toast notification
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2000);
+    }
+
+    // History functions
     async function populateHistoryDropdown() {
         const sel = document.getElementById('historyStudentSelect');
         const q = query(collection(db, "students"), where("division", "==", teacherData.division));
@@ -1312,7 +1244,7 @@
         const res = document.getElementById('historyResult');
         
         if(!sid) {
-            res.innerHTML = '<p style="color:#666; text-align:center; padding:20px;">Select a student to view the academic table.</p>';
+            res.innerHTML = '<p style="color:#666; text-align:center; padding:20px;">Select a student to view records</p>';
             return;
         }
 
@@ -1325,25 +1257,28 @@
         }
 
         if (!logs.length) {
-            res.innerHTML = "<p style='text-align:center; padding:20px;'>No records found for the selected criteria.</p>";
+            res.innerHTML = "<p style='text-align:center; padding:20px;'>No records found</p>";
             return;
         }
 
         let tableHtml = `
-            <table class="hist-table" style="min-width:900px;">
+            <table class="hist-table">
                 <thead>
                     <tr>
-                        <th rowspan="2" style="width:120px;">Date</th>
-                        <th rowspan="2" style="width:60px;">Attn</th>
+                        <th>Date</th>
+                        <th>Attn</th>
                         <th colspan="2">${labels[0]}</th>
                         <th colspan="2">${labels[1]}</th>
                         <th colspan="2">${labels[2]}</th>
-                        <th rowspan="2" style="width:120px;">Perf.</th>
+                        <th>Perf.</th>
                     </tr>
                     <tr>
+                        <th></th>
+                        <th></th>
                         <th>Lvl</th><th>Pg</th>
                         <th>Lvl</th><th>Pg</th>
                         <th>Lvl</th><th>Pg</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>`;
@@ -1368,11 +1303,11 @@
 
             tableHtml += `
                 <tr>
-                    <td style="font-weight:bold;">${log.date}</td>
+                    <td>${log.date}</td>
                     <td><span class="attn-badge attn-${attn}">${attn}</span></td>
-                    <td>${s1.lvl}</td><td style="font-weight:bold; color:var(--primary);">${s1.pg}</td>
-                    <td>${s2.lvl}</td><td style="font-weight:bold; color:var(--primary);">${s2.pg}</td>
-                    <td>${s3.lvl}</td><td style="font-weight:bold; color:var(--primary);">${s3.pg}</td>
+                    <td>${s1.lvl}</td><td>${s1.pg}</td>
+                    <td>${s2.lvl}</td><td>${s2.pg}</td>
+                    <td>${s3.lvl}</td><td>${s3.pg}</td>
                     <td><span class="attn-badge" style="background:#e3f2fd;">${perf}</span></td>
                 </tr>`;
         });
