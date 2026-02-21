@@ -214,7 +214,7 @@
             color: #ef6c00; 
         }
         
-        /* NEW: Simplified Bulk Input Grid */
+        /* Date Section */
         .date-section {
             background: #f8f9fa;
             padding: 20px;
@@ -282,7 +282,7 @@
         /* Student Grid */
         .student-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 15px;
             margin-bottom: 20px;
         }
@@ -347,22 +347,25 @@
             transition: all 0.2s;
         }
         
-        .att-toggle-btn.active[data-value="P"] {
+        .att-toggle-btn.present.active {
             background: #e8f5e9;
             color: #2e7d32;
             font-weight: 700;
+            border: 1px solid #2e7d32;
         }
         
-        .att-toggle-btn.active[data-value="A"] {
+        .att-toggle-btn.absent.active {
             background: #ffebee;
             color: #c62828;
             font-weight: 700;
+            border: 1px solid #c62828;
         }
         
-        .att-toggle-btn.active[data-value="L"] {
+        .att-toggle-btn.late.active {
             background: #fff3e0;
             color: #ef6c00;
             font-weight: 700;
+            border: 1px solid #ef6c00;
         }
         
         /* Subject Row */
@@ -374,7 +377,7 @@
         }
         
         .subject-label {
-            width: 40px;
+            width: 45px;
             font-weight: 600;
             color: var(--primary);
             font-size: 0.9rem;
@@ -414,7 +417,7 @@
         .performance-quick {
             display: flex;
             gap: 5px;
-            margin-top: 10px;
+            margin: 15px 0 10px;
             background: #f5f5f5;
             padding: 5px;
             border-radius: 12px;
@@ -433,39 +436,45 @@
             transition: all 0.2s;
         }
         
-        .perf-quick-btn.active[data-value="Excellent"] {
+        .perf-quick-btn.excellent.active {
             background: #4caf50;
             color: white;
         }
         
-        .perf-quick-btn.active[data-value="Good"] {
+        .perf-quick-btn.good.active {
             background: #2196f3;
             color: white;
         }
         
-        .perf-quick-btn.active[data-value="Average"] {
+        .perf-quick-btn.average.active {
             background: #ff9800;
             color: white;
         }
         
-        .perf-quick-btn.active[data-value="Poor"] {
+        .perf-quick-btn.poor.active {
             background: #f44336;
             color: white;
         }
         
         /* Progress Summary */
         .progress-summary {
-            margin-top: 15px;
+            margin-top: 12px;
             background: #f8f9fa;
-            padding: 12px;
-            border-radius: 12px;
+            padding: 10px;
+            border-radius: 10px;
             font-size: 0.85rem;
+            border-left: 3px solid var(--primary);
         }
         
         .progress-row {
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
+        }
+        
+        /* Hidden inputs */
+        .hidden-input {
+            display: none;
         }
         
         /* Toast Notification */
@@ -671,6 +680,7 @@
             <div class="quick-actions">
                 <button class="quick-action-btn" onclick="setAllAttendance('P')">✅ All Present</button>
                 <button class="quick-action-btn" onclick="setAllAttendance('A')">❌ All Absent</button>
+                <button class="quick-action-btn" onclick="setAllAttendance('L')">⏰ All Late</button>
                 <button class="quick-action-btn" onclick="setAllPerformance('Good')">⭐ All Good</button>
                 <button class="quick-action-btn" onclick="resetPageNumbers()">📄 Reset Pages</button>
             </div>
@@ -735,9 +745,9 @@
     const db = getFirestore(app);
 
     const divisionLabels = {
-        "Maktab": ["QAIDA", "DUA", "ISLAMIC STUDIES"],
-        "Nazera": ["PARA", "TAJWEED", "ISLAMIC STUDIES"],
-        "Hifz": ["PARA", "TAJWEED", "ISLAMIC STUDIES"]
+        "Maktab": ["Qaida", "Dua", "Islamic Studies"],
+        "Nazera": ["Para", "Tajweed", "Islamic Studies"],
+        "Hifz": ["Para", "Tajweed", "Islamic Studies"]
     };
 
     const teacherEmail = localStorage.getItem('userEmail');
@@ -856,20 +866,20 @@
                         <span class="student-grid-id">#${doc.id.slice(-4)}</span>
                     </div>
                     
-                    <!-- Attendance Toggle -->
+                    <!-- Attendance Toggle with Hidden Input -->
                     <div class="attendance-toggle">
-                        <button type="button" class="att-toggle-btn" data-value="P" onclick="setAttendance('${doc.id}', 'P', event)">✅ Present</button>
-                        <button type="button" class="att-toggle-btn" data-value="A" onclick="setAttendance('${doc.id}', 'A', event)">❌ Absent</button>
-                        <button type="button" class="att-toggle-btn" data-value="L" onclick="setAttendance('${doc.id}', 'L', event)">⏰ Late</button>
+                        <button type="button" class="att-toggle-btn present ${lv.attendance === 'P' ? 'active' : ''}" onclick="setAttendance('${doc.id}', 'P', event)">✅ Present</button>
+                        <button type="button" class="att-toggle-btn absent ${lv.attendance === 'A' ? 'active' : ''}" onclick="setAttendance('${doc.id}', 'A', event)">❌ Absent</button>
+                        <button type="button" class="att-toggle-btn late ${lv.attendance === 'L' ? 'active' : ''}" onclick="setAttendance('${doc.id}', 'L', event)">⏰ Late</button>
                     </div>
-                    <input type="hidden" id="att-${doc.id}" value="P">
+                    <input type="hidden" id="att-${doc.id}" name="attendance" value="${lv.attendance || 'P'}">
                     
                     <!-- Subjects -->
                     ${[0,1,2].map(i => `
                         <div class="subject-row">
                             <span class="subject-label">${labels[i]}</span>
                             <input type="number" class="subject-level" id="level-${doc.id}-${i}" 
-                                   value="${lv[`c${i+1}`]}" min="0" placeholder="Level" 
+                                   value="${lv[`c${i+1}`] || 0}" min="0" placeholder="Level" 
                                    oninput="validateInput(this)" onchange="updateProgress('${doc.id}')">
                             <select class="subject-page" id="page-${doc.id}-${i}" onchange="updateProgress('${doc.id}')">
                                 <option value="-">-</option>
@@ -878,20 +888,20 @@
                         </div>
                     `).join('')}
                     
-                    <!-- Performance Quick Select -->
+                    <!-- Performance Quick Select with Hidden Input -->
                     <div class="performance-quick">
-                        <button type="button" class="perf-quick-btn" data-value="Excellent" onclick="setPerformance('${doc.id}', 'Excellent', event)">✨ Excellent</button>
-                        <button type="button" class="perf-quick-btn" data-value="Good" onclick="setPerformance('${doc.id}', 'Good', event)">👍 Good</button>
-                        <button type="button" class="perf-quick-btn" data-value="Average" onclick="setPerformance('${doc.id}', 'Average', event)">👌 Average</button>
-                        <button type="button" class="perf-quick-btn" data-value="Poor" onclick="setPerformance('${doc.id}', 'Poor', event)">⚠️ Poor</button>
+                        <button type="button" class="perf-quick-btn excellent ${lv.performance === 'Excellent' ? 'active' : ''}" onclick="setPerformance('${doc.id}', 'Excellent', event)">✨ Excellent</button>
+                        <button type="button" class="perf-quick-btn good ${lv.performance === 'Good' ? 'active' : ''}" onclick="setPerformance('${doc.id}', 'Good', event)">👍 Good</button>
+                        <button type="button" class="perf-quick-btn average ${lv.performance === 'Average' ? 'active' : ''}" onclick="setPerformance('${doc.id}', 'Average', event)">👌 Average</button>
+                        <button type="button" class="perf-quick-btn poor ${lv.performance === 'Poor' ? 'active' : ''}" onclick="setPerformance('${doc.id}', 'Poor', event)">⚠️ Poor</button>
                     </div>
-                    <input type="hidden" id="perf-${doc.id}" value="Good">
+                    <input type="hidden" id="perf-${doc.id}" name="performance" value="${lv.performance || 'Good'}">
                     
                     <!-- Progress Summary -->
                     <div class="progress-summary" id="summary-${doc.id}">
                         <div class="progress-row">
-                            <span>📊 Current:</span>
-                            <span>${labels[0]}: ${lv.c1} | ${labels[1]}: ${lv.c2} | ${labels[2]}: ${lv.c3}</span>
+                            <span>📊 Current Levels:</span>
+                            <span>${labels[0]}: ${lv.c1 || 0} | ${labels[1]}: ${lv.c2 || 0} | ${labels[2]}: ${lv.c3 || 0}</span>
                         </div>
                     </div>
                 </div>
@@ -917,32 +927,36 @@
 
     // Set attendance for a student
     window.setAttendance = (studentId, value, event) => {
-        document.getElementById(`att-${studentId}`).value = value;
+        // Update hidden input
+        const attInput = document.getElementById(`att-${studentId}`);
+        if (attInput) {
+            attInput.value = value;
+        }
         
         // Update button styles
         const container = event.target.closest('.attendance-toggle');
         container.querySelectorAll('.att-toggle-btn').forEach(btn => {
             btn.classList.remove('active');
-            if (btn.dataset.value === value) {
-                btn.classList.add('active');
-            }
         });
+        event.target.classList.add('active');
         
         triggerAutoSave();
     };
 
     // Set performance for a student
     window.setPerformance = (studentId, value, event) => {
-        document.getElementById(`perf-${studentId}`).value = value;
+        // Update hidden input
+        const perfInput = document.getElementById(`perf-${studentId}`);
+        if (perfInput) {
+            perfInput.value = value;
+        }
         
         // Update button styles
         const container = event.target.closest('.performance-quick');
         container.querySelectorAll('.perf-quick-btn').forEach(btn => {
             btn.classList.remove('active');
-            if (btn.dataset.value === value) {
-                btn.classList.add('active');
-            }
         });
+        event.target.classList.add('active');
         
         triggerAutoSave();
     };
@@ -950,40 +964,47 @@
     // Set all students to same attendance
     window.setAllAttendance = (value) => {
         studentsList.forEach(student => {
-            document.getElementById(`att-${student.id}`).value = value;
+            // Update hidden input
+            const attInput = document.getElementById(`att-${student.id}`);
+            if (attInput) attInput.value = value;
             
             // Update button styles
             const studentCard = document.querySelector(`[data-student-id="${student.id}"]`);
             const container = studentCard.querySelector('.attendance-toggle');
             container.querySelectorAll('.att-toggle-btn').forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.dataset.value === value) {
+                if ((value === 'P' && btn.classList.contains('present')) ||
+                    (value === 'A' && btn.classList.contains('absent')) ||
+                    (value === 'L' && btn.classList.contains('late'))) {
                     btn.classList.add('active');
                 }
             });
         });
         
-        showToast(`All students marked as ${value === 'P' ? 'Present' : value === 'A' ? 'Absent' : 'Late'}`);
+        const statusText = value === 'P' ? 'Present' : value === 'A' ? 'Absent' : 'Late';
+        showToast(`✅ All students marked as ${statusText}`);
         triggerAutoSave();
     };
 
     // Set all students to same performance
     window.setAllPerformance = (value) => {
         studentsList.forEach(student => {
-            document.getElementById(`perf-${student.id}`).value = value;
+            // Update hidden input
+            const perfInput = document.getElementById(`perf-${student.id}`);
+            if (perfInput) perfInput.value = value;
             
             // Update button styles
             const studentCard = document.querySelector(`[data-student-id="${student.id}"]`);
             const container = studentCard.querySelector('.performance-quick');
             container.querySelectorAll('.perf-quick-btn').forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.dataset.value === value) {
+                if (btn.classList.contains(value.toLowerCase())) {
                     btn.classList.add('active');
                 }
             });
         });
         
-        showToast(`All students set to ${value}`);
+        showToast(`⭐ All students set to ${value}`);
         triggerAutoSave();
     };
 
@@ -996,7 +1017,7 @@
                     if (pageSelect) pageSelect.value = '-';
                 }
             });
-            showToast('All pages reset');
+            showToast('📄 All pages reset');
             triggerAutoSave();
         }
     };
@@ -1014,7 +1035,7 @@
         
         summary.innerHTML = `
             <div class="progress-row">
-                <span>📊 Current:</span>
+                <span>📊 Current Levels:</span>
                 <span>${labels[0]}: ${levels[0]} | ${labels[1]}: ${levels[1]} | ${labels[2]}: ${levels[2]}</span>
             </div>
         `;
@@ -1090,7 +1111,9 @@
                         const attContainer = studentCard.querySelector('.attendance-toggle');
                         attContainer.querySelectorAll('.att-toggle-btn').forEach(btn => {
                             btn.classList.remove('active');
-                            if (btn.dataset.value === values.att) {
+                            if ((values.att === 'P' && btn.classList.contains('present')) ||
+                                (values.att === 'A' && btn.classList.contains('absent')) ||
+                                (values.att === 'L' && btn.classList.contains('late'))) {
                                 btn.classList.add('active');
                             }
                         });
@@ -1107,7 +1130,7 @@
                         const perfContainer = studentCard.querySelector('.performance-quick');
                         perfContainer.querySelectorAll('.perf-quick-btn').forEach(btn => {
                             btn.classList.remove('active');
-                            if (btn.dataset.value === values.perf) {
+                            if (btn.classList.contains(values.perf?.toLowerCase())) {
                                 btn.classList.add('active');
                             }
                         });
@@ -1173,7 +1196,7 @@
             for (let student of studentsList) {
                 const sid = student.id;
                 
-                // Get values
+                // Get values from hidden inputs
                 const att = document.getElementById(`att-${sid}`)?.value || 'P';
                 const perf = document.getElementById(`perf-${sid}`)?.value || 'Good';
                 
@@ -1188,17 +1211,20 @@
                     if (pageSelect) pages[`p${i+1}`] = pageSelect.value;
                 }
                 
-                // Create log text (same format for compatibility)
-                const logText = `[ATTN: ${att}] [${perf}] ${labels[0]}: LVL ${lv.c1} PG ${pages.p1} | ${labels[1]}: LVL ${lv.c2} PG ${pages.p2} | ${labels[2]}: LVL ${lv.c3} PG ${pages.p3}`;
+                // Create log text with proper format for parent portal
+                const logText = `[Attn: ${att}] [${perf}] ${labels[0]}: Lvl ${lv.c1} Pg ${pages.p1} | ${labels[1]}: Lvl ${lv.c2} Pg ${pages.p2} | ${labels[2]}: Lvl ${lv.c3} Pg ${pages.p3}`;
                 
-                // Update Firebase
+                // Get current student data
                 const sRef = doc(db, "students", sid);
                 const sSnap = await getDoc(sRef);
-                const currentLogs = sSnap.data().logs || [];
+                const currentData = sSnap.data();
+                const currentLogs = currentData.logs || [];
                 
+                // Update Firebase - preserve existing structure
                 await updateDoc(sRef, {
                     levels: lv,
-                    logs: [{ date: logDate, text: logText, timestamp: new Date() }, ...currentLogs].slice(0, 100)
+                    logs: [{ date: logDate, text: logText, timestamp: new Date() }, ...currentLogs].slice(0, 100),
+                    lastUpdated: new Date().toISOString()
                 });
                 
                 successCount++;
@@ -1208,9 +1234,14 @@
             localStorage.removeItem('teacherDraft');
             
             showToast(`✅ Success! ${successCount} records saved.`);
-            window.switchTab('dashboard');
+            
+            // Switch to dashboard to show updated progress
+            setTimeout(() => {
+                window.switchTab('dashboard');
+            }, 1500);
             
         } catch (e) { 
+            console.error("Save error:", e);
             showToast("❌ Error: " + e.message); 
         } finally {
             btn.disabled = false;
@@ -1265,36 +1296,42 @@
             <table class="hist-table">
                 <thead>
                     <tr>
-                        <th>DATE</th>
-                        <th>ATTN</th>
+                        <th>Date</th>
+                        <th>Attn</th>
                         <th colspan="2">${labels[0]}</th>
                         <th colspan="2">${labels[1]}</th>
                         <th colspan="2">${labels[2]}</th>
-                        <th>PERF.</th>
+                        <th>Perf.</th>
                     </tr>
                     <tr>
                         <th></th>
                         <th></th>
-                        <th>LVL</th><th>PG</th>
-                        <th>LVL</th><th>PG</th>
-                        <th>LVL</th><th>PG</th>
+                        <th>Lvl</th><th>Pg</th>
+                        <th>Lvl</th><th>Pg</th>
+                        <th>Lvl</th><th>Pg</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>`;
 
         logs.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(log => {
+            // Parse the log text to extract data
             const attnMatch = log.text.match(/\[Attn: (.*?)\]/);
             const perfMatch = log.text.match(/\] \[(.*?)\]/);
             const attn = attnMatch ? attnMatch[1] : "-";
             const perf = perfMatch ? perfMatch[1] : "-";
+            
+            // Split the progress parts
             const progressParts = log.text.split('|');
             
             const extractData = (part) => {
-                if(!part) return { LVL: "-", PG: "-" };
-                const lMatch = part.match(/LVL (.*?) /);
-                const pMatch = part.match(/PG (.*?)$/);
-                return { LVL: lMatch ? lMatch[1] : "-", PG: pMatch ? pMatch[1] : "-" };
+                if(!part) return { lvl: "-", pg: "-" };
+                const lMatch = part.match(/Lvl (.*?) /);
+                const pMatch = part.match(/Pg (.*?)$/);
+                return { 
+                    lvl: lMatch ? lMatch[1] : "-", 
+                    pg: pMatch ? pMatch[1] : "-" 
+                };
             };
 
             const s1 = extractData(progressParts[0]);
@@ -1305,9 +1342,9 @@
                 <tr>
                     <td>${log.date}</td>
                     <td><span class="attn-badge attn-${attn}">${attn}</span></td>
-                    <td>${s1.LVL}</td><td>${s1.PG}</td>
-                    <td>${s2.LVL}</td><td>${s2.PG}</td>
-                    <td>${s3.LVL}</td><td>${s3.PG}</td>
+                    <td>${s1.lvl}</td><td>${s1.pg}</td>
+                    <td>${s2.lvl}</td><td>${s2.pg}</td>
+                    <td>${s3.lvl}</td><td>${s3.pg}</td>
                     <td><span class="attn-badge" style="background:#e3f2fd;">${perf}</span></td>
                 </tr>`;
         });
